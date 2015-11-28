@@ -21,7 +21,6 @@
 #' @return a matrix of dimension n_grey by n_grey, the GLCM. The column and row names represent 
 #'   grey values in the image.
 #'   
-#'   See \url{http://www.fp.ucalgary.ca/mhallbey/tutorial.htm} for details.
 #' @references \url{http://www.fp.ucalgary.ca/mhallbey/tutorial.htm}
 #' @examples
 #' \dontrun{
@@ -36,21 +35,12 @@ glcm <- setClass("glcm",
 
 setMethod("initialize", 
           signature = "glcm", 
-          definition = function(.Object, data, angle = 0, d=1, n_grey = 32, normalize=TRUE, ...){
-            #Check validity of input
-            if (!is.matrix(data)) {
-              stop(paste0("Object of class ", class(data), ".  is.matrix(object) must evaluate TRUE."))
-            }
-            if (any(data < 0)) {
-              stop("Object contains negative values. All values must be greater than 0.")
-            }
-            
+          definition = function(.Object, data, angle, d, n_grey, normalize, ...){
+
+            #Send to discretizeImage for error checking
             #Discretize grey values if required
             #discretize image and initialize GLCM based on discretized image
-            
-            if( !identical(n_grey, length(unique(c(data))) )){ 
-              data <- discretizeImage(data, n_grey=n_grey, ...)
-            }
+            data <- discretizeImage(data, n_grey=n_grey, ...)
             
             unique_vals <- sort(unique(c(data)))
             
@@ -70,23 +60,23 @@ setMethod("initialize",
             }
             
             #define count matrix
-            
             counts <- matrix(0, ncol=length(unique_vals), nrow=length(unique_vals) )
-            rownames(counts) <-colnames(counts) <- unique_vals
+            rownames(counts) <- colnames(counts) <- unique_vals
             
-            #loop over rows and columns
-            for(i in 1:nrow(data)){
-              for(j in 1:ncol(data)){
-                ref_val <- data[i,j]
-                neighbour_val <- tryCatch(data[i + angle[1], j + angle[2]], error=function(e) NA)
-                if(is.na(neighbour_val)){
-                  next
-                } else {
-                  counts[as.character(ref_val), as.character(neighbour_val)] <- counts[as.character(ref_val), as.character(neighbour_val)] + 1
-                }
-                
-              }
+            #ref = reference pixel value
+            #nei = neighbor pixel value
+            #This loop finds indices of neighbor pixels given a ref value and angle, counts occurrence of each
+            #pixel value, and adds them into the counts matrix
+            for(ref in unique_vals){
+              ref_indices <- which(data==ref, arr.ind=TRUE)
+              nei_indices <- matrix(c(ref_indices[,'row'] + angle[1], ref_indices[,'col'] + angle[2]), ncol=2)
+              #make sure indices exist
+              nei_indices <- matrix(nei_indices[which(nei_indices[,1] <= nrow(data) & nei_indices[,2] <= ncol(data)),], ncol=2)
+              nei <- data[nei_indices] 
+              nei_counts <- as.data.frame(table(nei))
+              counts[as.character(ref), as.character(nei_counts$nei) ] <- counts[as.character(ref), as.character(nei_counts$nei)] + nei_counts$Freq
             }
+            
             
             #GLCMs should be symmetrical, so the transpose is added
             counts <- counts + t(counts)
@@ -99,3 +89,8 @@ setMethod("initialize",
             .Object
             
           }   )
+
+#' @export          
+glcm <- function(data, angle = 0, d=1, n_grey = 32, normalize=TRUE, ...){
+ return(new("glcm", data, angle, d, n_grey, normalize, ...))
+}

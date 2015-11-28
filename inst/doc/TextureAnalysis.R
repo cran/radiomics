@@ -1,8 +1,9 @@
-## ------------------------------------------------------------------------
-library(radiomics)
-
 ## ----echo=FALSE, message=FALSE-------------------------------------------
 devtools::load_all(".")
+knitr::opts_chunk$set(echo = TRUE, fig.retina=2, fig.width=7, fig.height=5)
+
+## ---- message=FALSE------------------------------------------------------
+library(radiomics)
 
 ## ---- eval = FALSE-------------------------------------------------------
 #  test <- matrix(sample(1:10, 25, replace=TRUE), ncol=5)
@@ -40,7 +41,7 @@ data(hallbey)
 ## ---- eval=FALSE---------------------------------------------------------
 #  calc_features(hbGLCM)
 
-## ------------------------------------------------------------------------
+## ----fig.width=5---------------------------------------------------------
 image(hbGLCM)
 
 ## ---- echo=FALSE, results='asis', fig.cap = "GLCM features."-------------
@@ -59,7 +60,7 @@ knitr::kable(data.frame("Feature"=c("Mean", "Variance", "Auto Correlation" ,"Clu
               "glcm_homogeneity1", "glcm_homogeneity2", "glcm_IDMN",
               "glcm_IDN", "glcm_inverseVariance", "glcm_maxProb", 
               "glcm_sumAverage", "glcm_sumEntropy", "glcm_sumVariance"
-            )))
+            )), caption="GLCM features")
 
 ## ----echo=FALSE----------------------------------------------------------
 s <- matrix(c(0,1,2,3,0,2,3,3,2,1,1,1,3,0,3,0), nrow=4, byrow=T) #from Galloway 1974
@@ -79,9 +80,9 @@ knitr::kable(data.frame("Feature"=c("Grey Level Non-uniformity", "High Grey Leve
                                 "glrlm_LRHGLE", "glrlm_LRLGLE",
                                 "glrlm_LGLRE", "glrlm_RLN", "glrlm_RP",
                                 "glrlm_SRE", "glrlm_SRHGLE", "glrlm_SRLGLE"
-            )))
+            )), caption="GLRLM features")
 
-## ------------------------------------------------------------------------
+## ---- fig.width=5--------------------------------------------------------
 discTumor <- discretizeImage(radiomics::tumor, n_grey=16)
 image(discTumor, axes=F, col=viridis::viridis(16))
 
@@ -102,5 +103,5 @@ knitr::kable(data.frame("Feature"=c("Small Area Emphasis", "Large Area Emphasis"
                                 "glszm_SZV", "glszm_ZP", "glszm_LIE",
                                 "glszm_HIE", "glszm_LISAE", "glszm_HISAE", 
                                 "glszm_LILAE", "glszm_HILAE"
-            )))
+            )), caption="GLSMZ and MGLSZM features")
 

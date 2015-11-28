@@ -1,7 +1,7 @@
 Package: radiomics
 Type: Package
 Title: Radiomic Image Processing Toolbox
-Version: 0.1.0
+Version: 0.1.1
 Date: 2015-11-22
 Author: Joel Carlson
 Maintainer: Joel Carlson <jnkcarlson@gmail.com>
@@ -16,8 +16,8 @@ VignetteBuilder: knitr
 Collate: 'GLSZM.R' 'MGLSZM.R' 'GLRLM.R' 'GLCM.R' 'CalculateFeatures.R'
         'FirstOrder.R' 'GLCMFeatures.R' 'GLRLMFeatures.R'
         'GLSZMFeatures.R' 'ImageQuantize.R' 'data.R' 'image.R'
-        'radiomics.R'
+        'radiomics.R' 'startupMessage.R'
 NeedsCompilation: no
-Packaged: 2015-11-22 09:32:25 UTC; joel
+Packaged: 2015-11-28 12:38:33 UTC; joel
 Repository: CRAN
-Date/Publication: 2015-11-22 11:48:34
+Date/Publication: 2015-11-28 14:53:54

@@ -1,9 +1,17 @@
 Radiomics: Texture Analysis Matrices
 ====================================
 
+[![cran version](http://www.r-pkg.org/badges/version/radiomics)](http://cran.rstudio.com/web/packages/radiomics) [![Build Status](https://travis-ci.org/joelcarlson/radiomics.svg?branch=master)](https://travis-ci.org/joelcarlson/radiomics)
+
 The `radiomics` package is a set of tools for computing texture matrices and features from images.
 
-You can install the development version of the package using:
+The release version of this package is available from [CRAN](https://cran.r-project.org/web/packages/radiomics/index.html) using:
+
+``` r
+install.packages("radiomics")
+```
+
+Or you can install the development version of the package using:
 
 ``` r
 devtools::install_github("joelcarlson/radiomics")
@@ -14,16 +22,16 @@ library(radiomics)
 Texture Matrices
 ================
 
-In the package are functions for calculating four different types of matrices used to quantify the texture of an image.
+In the package are functions for calculating four different types of matrices and associated feature sets used to quantify the texture of an image.
 
 These matrices are the:
 
--   Gray Level Co-occurrence Matrix
--   Gray Level Run Length Matrix
--   Gray Level Size Zone Matrix
--   Multiple Gray Level Size Zone Matrix
+-   Grey Level Co-occurrence Matrix
+-   Grey Level Run Length Matrix
+-   Grey Level Size Zone Matrix
+-   Multiple Grey Level Size Zone Matrix
 
-Detailed descriptions and references for each matrix can be found [here](http://joelcarlson.me/2015/07/10/radiomics-package/) Detailed usage directions for calculating features and matrices can be found in the package vignette (use `browseVignettes(package = "radiomics")`)
+Detailed descriptions and references for each matrix can be found [here](http://joelcarlson.me/2015/07/10/radiomics-package/). Detailed usage directions for calculating features and matrices can be found in the package vignette (use `browseVignettes(package = "radiomics")`)
 
 Using the Package
 =================
@@ -31,7 +39,7 @@ Using the Package
 Building Texture Matrices
 -------------------------
 
-Texture matrices can be created from 2D images by using the abbreviated matrix name as a function call:
+Texture matrices can be created from 2D images by using the abbreviated and lowercase matrix name as a function call:
 
 ``` r
 tumor <- radiomics::tumor #2D MRI slice of a brain tumor
@@ -41,7 +49,7 @@ glszm(tumor)
 mglszm(tumor)
 ```
 
-A matrix with the class of the texture matrix type is return, as shown here using `glcm(tumor, n_grey=4)`
+A matrix with the class of the texture matrix type is returned, as shown here using `glcm(tumor, n_grey=4)`
 
     #> An object of class "glcm"
     #>              1          2           3            4
@@ -69,14 +77,15 @@ image(mglszm(tumor))
 
 The `image` functions make use of the `viridis` scale, as shown here using `image(glcm(tumor, n_grey=64))`:
 
-![](figs/README-tumorglcm-1.png)
+![Sample image](https://raw.githubusercontent.com/joelcarlson/radiomics/master/figs/README-tumorglcm-1.png)
 
 Calculating Features
 --------------------
 
-Each matrix type has an associated `calc_features` function, which returns an object of class `data.frame` with a single observation for each calculated feature.
+Each matrix type has an associated `calc_features` function, which returns an object of class `data.frame` with a single observation for each calculated feature. First order features can also be calculated on 2D matrices.
 
 ``` r
+calc_features(tumor)
 calc_features(glcm(tumor))
 calc_features(glrlm(tumor))
 calc_features(glszm(tumor))
