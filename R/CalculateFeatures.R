@@ -23,7 +23,7 @@ NULL
 #' \dontrun{
 #' calc_features(glcm(hallbey))
 #' calc_features(glrlm(psf, n_grey=10))
-#' calc_features(glcm(hallbey, features=c("glcm_mean", "glcm_variance", "pickles")))
+#' calc_features(glcm(hallbey), features=c("glcm_mean", "glcm_variance", "pickles"))
 #' }
 #' 
 #' @references \url{http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0102107}
@@ -40,7 +40,7 @@ NULL
 #' @importFrom stats var
 setGeneric("calc_features", function(object, features = c()) standardGeneric("calc_features"))
 
-#' @describeIn calc_features
+#' @describeIn calc_features Calculate first order features of a numeric matrix 
 #' @export
 setMethod("calc_features", 
           signature = "matrix",
@@ -73,7 +73,10 @@ setMethod("calc_features",
               } 
               feature_list <- feature_list[feature_list %in% features]
             }
-            feature_df <- data.frame(lapply(feature_list, function(f) get(f)(object)))
+            
+            feature_df <- data.frame(lapply(feature_list, function(f) tryCatch(get(f)(object),
+                                                                               error=function(cond) return(NA),
+                                                                               warning=function(cond) return(NA))))
             colnames(feature_df) <- feature_list
             return(feature_df)
           }
@@ -83,7 +86,7 @@ setMethod("calc_features",
 
 
 
-#' @describeIn calc_features
+#' @describeIn calc_features Calculate texture features of a glcm matrix 
 #' @export
 setMethod("calc_features", 
           signature = "glcm",
@@ -111,14 +114,16 @@ setMethod("calc_features",
               } 
               feature_list <- feature_list[feature_list %in% features]
             }
-            feature_df <- data.frame(lapply(feature_list, function(f) get(f)(object)))
+            feature_df <- data.frame(lapply(feature_list, function(f) tryCatch(get(f)(object),
+                                            error=function(cond) return(NA),
+                                            warning=function(cond) return(NA))))
             colnames(feature_df) <- feature_list
             return(feature_df)
           }
           
 )     
 
-#' @describeIn calc_features
+#' @describeIn calc_features Calculate texture features of a glrlm matrix 
 #' @export 
 setMethod("calc_features", 
           signature = "glrlm",
@@ -141,7 +146,9 @@ setMethod("calc_features",
               } 
               feature_list <- feature_list[feature_list %in% features]
             }
-            feature_df <- data.frame(lapply(feature_list, function(f) get(f)(object)))
+            feature_df <- data.frame(lapply(feature_list, function(f) tryCatch(get(f)(object),
+                                            error=function(cond) return(NA),
+                                            warning=function(cond) return(NA))))
             colnames(feature_df) <- feature_list
             return(feature_df)
           }
@@ -149,7 +156,7 @@ setMethod("calc_features",
 )   
 
 
-#' @describeIn calc_features
+#' @describeIn calc_features Calculate texture features of a glszm matrix 
 #' @export
 setMethod("calc_features", 
           signature = "glszm",
@@ -172,7 +179,9 @@ setMethod("calc_features",
               } 
               feature_list <- feature_list[feature_list %in% features]
             }
-            feature_df <- data.frame(lapply(feature_list, function(f) get(f)(object)))
+            feature_df <- data.frame(lapply(feature_list, function(f) tryCatch(get(f)(object),
+                                                                               error=function(cond) return(NA),
+                                                                               warning=function(cond) return(NA))))
             
             colnames(feature_df) <- feature_list
             return(feature_df)
@@ -181,7 +190,7 @@ setMethod("calc_features",
 )  
 
 
-#' @describeIn calc_features
+#' @describeIn calc_features Calculate texture features of an mglszm matrix 
 #' @export
 setMethod("calc_features", 
           signature = "mglszm",
@@ -204,7 +213,9 @@ setMethod("calc_features",
               } 
               feature_list <- feature_list[feature_list %in% features]
             }
-            feature_df <- data.frame(lapply(feature_list, function(f) get(f)(object)))
+            feature_df <- data.frame(lapply(feature_list, function(f) tryCatch(get(f)(object),
+                                                                               error=function(cond) return(NA),
+                                                                               warning=function(cond) return(NA))))
             
             
             colnames(feature_df) <- paste0("m",feature_list)

@@ -41,7 +41,10 @@ setMethod("initialize",
           definition = function(.Object, data, n_grey, truncate, ...){
             #send to discretizeImage for error checking
             data <- discretizeImage(data, n_grey=n_grey, ...)
-            
+            if(sum(is.na(data)) == dim(data)[1]*dim(data)[2]){
+              .Object@.Data <- matrix()[-1,-1]
+              return(.Object)
+            } 
             grey_lvls <- unique(c(data))
             grey_lvls <- grey_lvls[!is.na(grey_lvls)]
             #convert to data for use with spatstats functions
@@ -66,7 +69,7 @@ setMethod("initialize",
             #cast to matrix
             count_data <- reshape2::acast(count_data, greylvl~size, value.var="counts")
             #sort columns, if there is only a single size a vector is returned, hence the if
-            if(length(colnames(count_data)) > 1){
+            if(length(colnames(count_data)) > 1 && nrow(count_data) > 1){
               count_data <- count_data[,order(as.numeric(as.character(colnames(count_data))))]
             }
             count_data[is.na(count_data)] <- 0
