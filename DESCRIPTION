@@ -1,8 +1,8 @@
 Package: radiomics
 Type: Package
-Title: Radiomic Image Processing Toolbox
-Version: 0.1.2
-Date: 2016-04-29
+Title: 'Radiomic' Image Processing Toolbox
+Version: 0.1.3
+Date: 2018-03-15
 Author: Joel Carlson
 Maintainer: Joel Carlson <jnkcarlson@gmail.com>
 Description: Functions to extract first and second order statistics from
@@ -10,7 +10,7 @@ Description: Functions to extract first and second order statistics from
 License: MIT + file LICENSE
 Depends: R (>= 2.10)
 Imports: spatstat, reshape2, methods, Rcpp
-Suggests: testthat, knitr, rmarkdown, viridis, devtools
+Suggests: testthat, knitr, rmarkdown, viridis, devtools, roxygen2
 LazyData: true
 VignetteBuilder: rmarkdown, knitr
 Collate: 'GLSZM.R' 'MGLSZM.R' 'GLRLM.R' 'GLCM.R' 'CalculateFeatures.R'
@@ -18,8 +18,8 @@ Collate: 'GLSZM.R' 'MGLSZM.R' 'GLRLM.R' 'GLCM.R' 'CalculateFeatures.R'
         'GLSZMFeatures.R' 'ImageQuantize.R' 'RcppExports.R' 'data.R'
         'image.R' 'radiomics.R' 'startupMessage.R'
 LinkingTo: Rcpp
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1.9000
 NeedsCompilation: yes
-Packaged: 2016-05-04 07:22:28 UTC; jnkcarlson
+Packaged: 2018-03-29 22:45:12 UTC; johnmuschelli
 Repository: CRAN
-Date/Publication: 2016-05-04 10:02:49
+Date/Publication: 2018-03-30 12:48:24 UTC

@@ -1,5 +1,5 @@
 ## ----echo=FALSE, message=FALSE-------------------------------------------
-devtools::load_all(".")
+# devtools::load_all(".")
 knitr::opts_chunk$set(echo = TRUE, fig.retina=2, fig.width=7, fig.height=5)
 
 ## ---- message=FALSE------------------------------------------------------
@@ -36,7 +36,7 @@ knitr::kable(data.frame("Feature"=c("Energy", "Entropy", "Kurtosis",
 ## ---- message=FALSE------------------------------------------------------
 #Load the dataset from the Hallbey tutorial:
 data(hallbey)
-(hbGLCM <- glcm(hallbey, angle=0, d=1))
+(hbGLCM <- glcm(hallbey, angle=0, d=1, n_grey = 4))
 
 ## ---- eval=FALSE---------------------------------------------------------
 #  calc_features(hbGLCM)
@@ -67,7 +67,7 @@ s <- matrix(c(0,1,2,3,0,2,3,3,2,1,1,1,3,0,3,0), nrow=4, byrow=T) #from Galloway 
 s
 
 ## ------------------------------------------------------------------------
-glrlm(s, angle=0, verbose=F)
+glrlm(s, angle=0, verbose=FALSE)
 
 ## ---- echo=FALSE, results='asis', fig.cap = "GLCM features."-------------
 
@@ -87,7 +87,7 @@ discTumor <- discretizeImage(radiomics::tumor, n_grey=16)
 image(discTumor, axes=F, col=viridis::viridis(16))
 
 ## ---- message=FALSE------------------------------------------------------
-image(glszm(discTumor))
+image(glszm(discTumor, n_grey = 16))
 
 ## ---- message=FALSE------------------------------------------------------
 image(mglszm(tumor))
